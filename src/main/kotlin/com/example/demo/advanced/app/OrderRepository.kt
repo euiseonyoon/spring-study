@@ -1,5 +1,7 @@
 package com.example.demo.advanced.app
 
+import com.example.demo.advanced.trace.logtrace.AbstractTemplate
+import com.example.demo.advanced.trace.logtrace.AbstractTemplate2
 import com.example.demo.advanced.trace.logtrace.LogTrace
 import com.example.demo.advanced.trace.logtrace.models.TraceStatus
 import org.springframework.stereotype.Repository
@@ -11,20 +13,22 @@ class OrderRepository(
     private val trace: LogTrace
 ) {
     fun save(itemId: String) {
-        var status: TraceStatus? = null
-        try {
-            status = trace.begin("OrderRepository.save()")
+        val template: AbstractTemplate<Unit> = object : AbstractTemplate<Unit>(trace) {
+            override fun call() {
+                if (itemId == "ex") {
+                    throw IllegalStateException("예외!!!")
+                }
+                sleep(1000)
+            }
+        }
 
-            // 저장
+        val template2 = AbstractTemplate2(trace) {
             if (itemId == "ex") {
                 throw IllegalStateException("예외!!!")
             }
             sleep(1000)
-            trace.end(status)
-        } catch (e: Exception) {
-            trace.exception(status, e)
-            throw e
         }
+        val result = template2.execute("OrderRepository.save()")
+        template.execute("OrderRepository.save()")
     }
-
 }

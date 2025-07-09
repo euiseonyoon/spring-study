@@ -1,5 +1,7 @@
 package com.example.demo.advanced.app
 
+import com.example.demo.advanced.trace.logtrace.AbstractTemplate
+import com.example.demo.advanced.trace.logtrace.AbstractTemplate2
 import com.example.demo.advanced.trace.logtrace.LogTrace
 import com.example.demo.advanced.trace.logtrace.ThreadLocalLogTrace
 import com.example.demo.advanced.trace.logtrace.models.TraceStatus
@@ -12,14 +14,15 @@ class OrderService(
 ) {
 
     fun orderItem(itemId: String) {
-        var status: TraceStatus? = null
-        try{
-            status = trace.begin("OrderService.orderItem()")
-            orderRepository.save(itemId)
-            trace.end(status)
-        } catch (e: Exception) {
-            trace.exception(status, e)
-            throw e
+        val template: AbstractTemplate<Unit> = object : AbstractTemplate<Unit>(trace) {
+            override fun call() {
+                orderRepository.save(itemId)
+            }
         }
+
+        val template2 = AbstractTemplate2(trace) { orderRepository.save(itemId) }
+        val result2 = template2.execute("OrderService.orderItem()")
+
+        template.execute("OrderService.orderItem()")
     }
 }
