@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.aop.Pointcut
 import org.springframework.aop.framework.ProxyFactory
 import org.springframework.aop.support.DefaultPointcutAdvisor
+import org.springframework.aop.support.NameMatchMethodPointcut
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor
 
 class AdvisorTest {
 
@@ -114,5 +116,39 @@ class AdvisorTest {
          * 11:42:12.103 [Test worker] INFO com.example.demo.proxy.advisor.MyClassFilter -- MyClassFilter. matched={false}, filteredReason={Interface가 없습니다.}
          * 11:42:12.103 [Test worker] INFO com.example.demo.proxy.advisor.MyClassFilter -- MyClassFilter. matched={false}, filteredReason={Interface가 없습니다.}
          * */
+    }
+
+    @Test
+    @DisplayName("스프링이 제공하는 포인트컷")
+    fun advisorTest4() {
+        /**
+         * 스프링이 제공하는 포인트컷:
+         *      NameMatchMethodPointcut
+         *      JdkRegexMethodPointcut
+         *      TruePointcut: 항상 true 반환 -> 모든 클래스, 모든 메소드에 대해 advice 수행
+         *      AnnotationMatchingPointcut
+         *      AspectJExpressionPointcut. <- 이게 실무에서 가장 많이 사용되게 된다.
+         *
+         * */
+        val target: ServiceInterface = ServiceImpl()
+        val proxyFactory = ProxyFactory(target)
+
+        val advice = TimeAdvice()
+        val pointcut = NameMatchMethodPointcut()
+        // 메소드명이 save인 경우에만, advice 적용
+        pointcut.setMappedName("save")
+        val advisor = DefaultPointcutAdvisor(pointcut, advice)
+
+        proxyFactory.addAdvisor(advisor)
+        val proxy = proxyFactory.proxy as ServiceInterface
+
+        proxy.save()
+        /**
+         * 11:49:54.644 [Test worker] INFO com.example.demo.proxy.common.advice.TimeAdvice -- TimeProxy - TimeAdvice 실행
+         * 11:49:54.646 [Test worker] INFO com.example.demo.proxy.common.service.ServiceImpl -- ServiceImpl save 호출
+         * 11:49:54.647 [Test worker] INFO com.example.demo.proxy.common.advice.TimeAdvice -- execTime={0}
+         * 11:49:54.647 [Test worker] INFO com.example.demo.proxy.common.advice.TimeAdvice -- TimeProxy - TimeAdvice 종료
+         * */
+        proxy.find()
     }
 }
