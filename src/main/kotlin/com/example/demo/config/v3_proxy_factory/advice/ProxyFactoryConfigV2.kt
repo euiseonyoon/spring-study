@@ -20,9 +20,9 @@ class ProxyFactoryConfigV2 {
     private fun getAdvisor(trace: LogTrace) : Advisor {
         val pointcut = NameMatchMethodPointcut()
         pointcut.setMappedNames("request*", "order*", "save*")
-        val advisor = LogTraceAdvice(trace)
+        val advice = LogTraceAdvice(trace)
 
-        return DefaultPointcutAdvisor(pointcut, advisor)
+        return DefaultPointcutAdvisor(pointcut, advice)
     }
 
     @Bean
