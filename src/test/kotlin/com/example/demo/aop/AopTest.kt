@@ -3,6 +3,7 @@ package com.example.demo.aop
 import com.example.demo.aop.order.OrderRepository
 import com.example.demo.aop.order.OrderService
 import com.example.demo.aop.order.aop.AspectV1
+import com.example.demo.aop.order.aop.AspectV2
 import com.example.demo.common.logger
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -12,7 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 
 @SpringBootTest
-@Import(AspectV1::class)
+// @Import(AspectV1::class)
+@Import(AspectV2::class)
 class AopTest {
     private val log = logger()
 
