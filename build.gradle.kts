@@ -35,6 +35,10 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+allOpen {
+	annotation("com.example.demo.config.dynmic_proxy.OpenClass")
+}
+
 kotlin {
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict")
