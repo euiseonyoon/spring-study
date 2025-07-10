@@ -1,5 +1,8 @@
 package com.example.demo.advanced.app.v1
 
+import com.example.demo.config.dynmic_proxy.OpenClass
+
+@OpenClass
 class OrderRepositoryV1Impl : OrderRepositoryV1 {
 
     override fun save(itemId: String) {

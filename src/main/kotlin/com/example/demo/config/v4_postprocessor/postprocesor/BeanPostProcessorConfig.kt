@@ -12,28 +12,28 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 
-@Configuration
-@Import(AppV1Config::class, AppV2Config::class)
-class BeanPostProcessorConfig {
-
-    private val log = logger()
-
-    @Bean
-    fun logTracePostProcessor(
-        trace: LogTrace
-    ) : PackageLogTracePostProcessor {
-        // 해당 path 아래의 bean에 proxy를 적용하겠다
-        val basePackage = "com.example.demo.advanced.app"
-        return PackageLogTracePostProcessor(basePackage, getAdvisor(trace))
-    }
-
-    private fun getAdvisor(trace: LogTrace) : Advisor {
-        // pointcut
-        val pointcut = NameMatchMethodPointcut()
-        pointcut.setMappedNames("request*", "order*", "save*")
-        // advice
-        val advice = LogTraceAdvice(trace)
-
-        return DefaultPointcutAdvisor(pointcut, advice)
-    }
-}
+//@Configuration
+//@Import(AppV1Config::class, AppV2Config::class)
+//class BeanPostProcessorConfig {
+//
+//    private val log = logger()
+//
+//    @Bean
+//    fun logTracePostProcessor(
+//        trace: LogTrace
+//    ) : PackageLogTracePostProcessor {
+//        // 해당 path 아래의 bean에 proxy를 적용하겠다
+//        val basePackage = "com.example.demo.advanced.app"
+//        return PackageLogTracePostProcessor(basePackage, getAdvisor(trace))
+//    }
+//
+//    private fun getAdvisor(trace: LogTrace) : Advisor {
+//        // pointcut
+//        val pointcut = NameMatchMethodPointcut()
+//        pointcut.setMappedNames("request*", "order*", "save*")
+//        // advice
+//        val advice = LogTraceAdvice(trace)
+//
+//        return DefaultPointcutAdvisor(pointcut, advice)
+//    }
+//}
