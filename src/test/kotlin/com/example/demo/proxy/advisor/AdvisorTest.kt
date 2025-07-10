@@ -10,7 +10,6 @@ import org.springframework.aop.Pointcut
 import org.springframework.aop.framework.ProxyFactory
 import org.springframework.aop.support.DefaultPointcutAdvisor
 import org.springframework.aop.support.NameMatchMethodPointcut
-import org.springframework.aop.support.NameMatchMethodPointcutAdvisor
 
 class AdvisorTest {
 

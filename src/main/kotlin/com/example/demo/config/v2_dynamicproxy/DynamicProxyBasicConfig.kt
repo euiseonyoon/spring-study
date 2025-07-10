@@ -1,4 +1,4 @@
-package com.example.demo.advanced.app.config.v2_dynamicproxy
+package com.example.demo.config.v2_dynamicproxy
 
 import com.example.demo.advanced.app.v1.OrderControllerV1
 import com.example.demo.advanced.app.v1.OrderControllerV1Impl

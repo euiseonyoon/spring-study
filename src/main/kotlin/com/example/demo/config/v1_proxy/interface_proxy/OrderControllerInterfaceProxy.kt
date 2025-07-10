@@ -1,4 +1,4 @@
-package com.example.demo.advanced.app.config.v1_proxy.interface_proxy
+package com.example.demo.config.v1_proxy.interface_proxy
 
 import com.example.demo.advanced.app.v1.OrderControllerV1
 import com.example.demo.advanced.app.v1.OrderControllerV1Impl

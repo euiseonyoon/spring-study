@@ -1,4 +1,4 @@
-package com.example.demo.advanced.app.config.v2_dynamicproxy
+package com.example.demo.config.v2_dynamicproxy
 
 import com.example.demo.advanced.trace.logtrace.LogTrace
 import com.example.demo.advanced.trace.logtrace.models.TraceStatus
