@@ -2,9 +2,11 @@ package com.example.demo.advanced.trace.logtrace
 
 import com.example.demo.advanced.trace.logtrace.models.TraceId
 import com.example.demo.advanced.trace.logtrace.models.TraceStatus
+import com.example.demo.config.dynmic_proxy.OpenClass
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@OpenClass
 class ThreadLocalLogTrace : LogTrace {
     companion object {
         private const val START_PREFIX = "-->"
