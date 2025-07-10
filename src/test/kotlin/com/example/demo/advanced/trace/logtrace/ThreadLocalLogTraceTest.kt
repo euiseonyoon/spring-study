@@ -1,6 +1,7 @@
 package com.example.demo.advanced.trace.logtrace
 
 import com.example.demo.advanced.trace.logtrace.models.TraceStatus
+import com.example.demo.common.logger
 
 class ThreadLocalLogTraceTest {
 
