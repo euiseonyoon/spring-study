@@ -8,14 +8,14 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 
-@Configuration
-@Import(AppV1Config::class, AppV2Config::class)
-class AopConfig {
-
-    @Bean
-    fun logTraceAspect(
-        trace: LogTrace
-    ) : LogTraceAspect {
-        return LogTraceAspect(trace)
-    }
-}
+//@Configuration
+//@Import(AppV1Config::class, AppV2Config::class)
+//class AopConfig {
+//
+//    @Bean
+//    fun logTraceAspect(
+//        trace: LogTrace
+//    ) : LogTraceAspect {
+//        return LogTraceAspect(trace)
+//    }
+//}
