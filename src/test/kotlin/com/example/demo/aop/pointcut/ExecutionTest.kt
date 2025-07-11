@@ -30,13 +30,13 @@ class ExecutionTest {
 
     @Test
     fun exactMatch() {
-        // execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)
-        // modifiers-pattern? : public (생략가능하지만 넣어줌)
-        // ret-type-pattern: String
-        // declaring-type-pattern?: com.example.demo.aop.order.aop.member.MemberServiceImpl
-        // name-pattern: hello
-        // param-patter: String
-        // throws-pattern?: 생략
+//         execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)
+//         modifiers-pattern? : public (생략가능하지만 넣어줌)
+//         ret-type-pattern: String
+//         declaring-type-pattern?: com.example.demo.aop.order.aop.member.MemberServiceImpl
+//         name-pattern: hello
+//         param-patter: String
+//         throws-pattern?: 생략
         pointcut.expression = "execution(public String com.example.demo.aop.order.aop.member.MemberServiceImpl.hello(String))"
         assertTrue {
             pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
