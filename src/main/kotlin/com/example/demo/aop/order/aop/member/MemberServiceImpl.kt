@@ -2,6 +2,7 @@ package com.example.demo.aop.order.aop.member
 
 import com.example.demo.aop.order.aop.member.annotation.ClassAop
 import com.example.demo.aop.order.aop.member.annotation.MethodAop
+import com.example.demo.aop.order.aop.member.models.Student
 import com.example.demo.config.dynmic_proxy.OpenClass
 import org.springframework.stereotype.Component
 
@@ -21,5 +22,9 @@ class MemberServiceImpl : MemberService{
 
     fun anyParamMethod(param: Any): String {
         return "any"
+    }
+
+    fun helloToStudent(student: Student): String {
+        return "student"
     }
 }
