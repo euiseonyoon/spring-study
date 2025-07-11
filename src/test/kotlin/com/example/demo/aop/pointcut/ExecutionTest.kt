@@ -1,5 +1,6 @@
 package com.example.demo.aop.pointcut
 
+import com.example.demo.aop.order.aop.member.MemberService
 import com.example.demo.aop.order.aop.member.MemberServiceImpl
 import com.example.demo.common.logger
 import org.junit.jupiter.api.BeforeEach
@@ -131,6 +132,98 @@ class ExecutionTest {
     fun packageMatchSubPackage2() {
         // com.example.demo.aop 하위 모든 페키지의 모든 메소드
         pointcut.expression = "execution(* com.example.demo.aop..*.*(..))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+    }
+
+    @Test
+    fun typeExactMatch() {
+        pointcut.expression = "execution(* com.example.demo.aop.order.aop.member.MemberServiceImpl.*(..))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+    }
+
+    @Test
+    fun typeMatchSuperType() {
+        // MemberServiceImpl은 MemberService 인터페이스를 구현함
+        // MemberService 로만 찾아도 포인트컷 적용됨
+        pointcut.expression = "execution(* com.example.demo.aop.order.aop.member.MemberService.*(..))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+
+        pointcut.expression = "execution(* com.example.demo.aop.order.aop.member.MemberServiceImpl.*(..))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberService::class.java)
+        }
+    }
+
+    @Test
+    fun typeMatchInternal() {
+        pointcut.expression = "execution(* com.example.demo.aop.order.aop.member.MemberServiceImpl.*(..))"
+        val internalMethod = MemberServiceImpl::class.java.getMethod("internal", String::class.java)
+        assertTrue {
+            pointcut.matches(internalMethod, MemberServiceImpl::class.java)
+        }
+    }
+
+    @Test
+    fun typeMatchNoSuperTypeMethodFalse() {
+        // MemberServiceImpl(자식)은 MemberService(부모) 인터페이스를 구현함
+        pointcut.expression = "execution(* com.example.demo.aop.order.aop.member.MemberService.*(..))"
+        val internalMethodOnlyOnChildNotOnParent = MemberServiceImpl::class.java.getMethod("internal", String::class.java)
+
+        // internalMethodOnlyOnChildNotOnParent (MemberServiceImpl.internal() 메소드는 부모인 MemberService에는 정의 되어있지 않다)
+        assertFalse {
+            pointcut.matches(internalMethodOnlyOnChildNotOnParent, MemberServiceImpl::class.java)
+        }
+    }
+
+    // String 타입의 파라미터를 허용
+    @Test
+    fun argsMatch() {
+        pointcut.expression = "execution(* *(String))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+    }
+
+    // 파라미터가 없는 것
+    @Test
+    fun argsMatchNoArgs() {
+        pointcut.expression = "execution(* *())"
+        assertFalse {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+    }
+
+    // 정확히 하나의 파라미터만 허용, 하지만 모든 파라미터 타입 허용
+    @Test
+    fun argsMatchStar() {
+        pointcut.expression = "execution(* *(*))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+    }
+
+    // 파라미터에 몇 개 들어와도 파라미터 타입상관없이 모두 허용
+    // e,g, (), (param), (param1, param2) ...
+    @Test
+    fun argsMatchAll() {
+        pointcut.expression = "execution(* *(**))"
+        assertTrue {
+            pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
+        }
+    }
+
+
+    // 파라미터에 String param으로 시작하고, 그 후에는 파라미터가 몇 개 들어와도 파라미터 타입상관없이 모두 허용
+    // e,g, (String), (String, param), (String, param1, param2) ...
+    @Test
+    fun argsMatchComplex() {
+        pointcut.expression = "execution(* *(String, ..))"
         assertTrue {
             pointcut.matches(helloMethod!!, MemberServiceImpl::class.java)
         }
