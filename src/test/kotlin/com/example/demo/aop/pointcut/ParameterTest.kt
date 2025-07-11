@@ -1,6 +1,7 @@
 package com.example.demo.aop.pointcut
 
 import com.example.demo.aop.order.aop.member.MemberService
+import com.example.demo.aop.order.aop.member.MyTestService
 import com.example.demo.aop.order.aop.member.annotation.ClassAop
 import com.example.demo.aop.order.aop.member.annotation.MethodAop
 import com.example.demo.common.logger
@@ -23,10 +24,14 @@ class ParameterTest {
     @Autowired
     lateinit var memberService: MemberService
 
+    @Autowired
+    lateinit var myTestService: MyTestService
+
     @Test
     fun success() {
         log.info("memberService={}", memberService.javaClass)
         memberService.hello("something")
+        myTestService.test("eeeeee")
     }
 
     @Aspect
@@ -95,5 +100,28 @@ class ParameterTest {
             log.info("annotationValue={}", annotation.value)
             // annotationValue=test value
         }
+
+        @Before("allMember() && this(obj)")
+        fun test1(joinPoint: JoinPoint, obj: MyTestService) {
+            log.info("[mytest1] {}, obj={}", joinPoint.signature, obj)
+            // [mytest1] String com.example.demo.aop.order.aop.member.MyTestService.test(), obj=com.example.demo.aop.order.aop.member.MyTestService@445b85d7
+        }
+
+        @Before("allMember() && target(obj)")
+        fun test2(joinPoint: JoinPoint, obj: MyTestService) {
+            log.info("[mytest2] {}, obj={}", joinPoint.signature, obj)
+            // [mytest2] String com.example.demo.aop.order.aop.member.MyTestService.test(), obj=com.example.demo.aop.order.aop.member.MyTestService@445b85d7
+        }
+
+        // @Before로 하면 logArgs2(), logArgs3() 포인트컷
+        @Before("allMember() && target(obj) && args(myArg,..)")
+        fun test3(joinPoint: JoinPoint, obj: MyTestService, myArg: String) {
+            log.info("[mytest3] {}, obj={}, arg={}", joinPoint.signature, obj, myArg)
+            // [mytest3] String com.example.demo.aop.order.aop.member.MyTestService.test(String), obj=com.example.demo.aop.order.aop.member.MyTestService@79617c3d, arg=eeeeee
+        }
+        /**
+         * NOTE:
+         *  MyTestService 처럼 Proxy가 아닌 bean은 this, target 모두 bean 객체 자체가 매게변수로 들어온다.
+         * */
     }
 }

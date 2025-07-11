@@ -5,6 +5,7 @@ import com.example.demo.aop.order.aop.member.annotation.MethodAop
 import com.example.demo.aop.order.aop.member.models.Student
 import com.example.demo.config.dynmic_proxy.OpenClass
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 
 @OpenClass
 @ClassAop
