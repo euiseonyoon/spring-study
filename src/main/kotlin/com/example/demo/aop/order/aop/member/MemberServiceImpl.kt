@@ -18,4 +18,8 @@ class MemberServiceImpl : MemberService{
     fun internal(param: String): String {
         return "ok"
     }
+
+    fun anyParamMethod(param: Any): String {
+        return "any"
+    }
 }
