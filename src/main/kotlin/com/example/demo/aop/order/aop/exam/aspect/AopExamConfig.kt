@@ -4,8 +4,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class TraceConfig {
+class AopExamConfig {
 
     @Bean
     fun traceAspect(): TraceAspect = TraceAspect()
+
+    @Bean
+    fun retryAspect(): RetryAspect = RetryAspect()
 }

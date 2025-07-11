@@ -1,5 +1,6 @@
 package com.example.demo.aop.order.aop.exam
 
+import com.example.demo.aop.order.aop.exam.annotation.Retry
 import com.example.demo.aop.order.aop.exam.annotation.Trace
 import org.springframework.stereotype.Repository
 
@@ -9,6 +10,7 @@ class ExamRepository {
 
     // 5번에 한번 실패하는 요청
     @Trace
+    @Retry
     fun save(itemId: String): String {
         seq++
         if (seq % 5 == 0) {
